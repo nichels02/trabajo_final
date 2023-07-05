@@ -114,6 +114,7 @@ public class movimiento : rotacion
 
                     if (listaDeArmas.Head.CantidadDeBalas <= 0 && listaDeArmas.Head.CantidadDeBalasTotales <= 0)
                     {
+                        Debug.Log("- metralleta");
                         listaDeArmas.remove();
                         if (listaDeArmas.Head.Valor == "pistolaPrincipal")
                         {
@@ -148,6 +149,7 @@ public class movimiento : rotacion
 
                     if (listaDeArmas.Head.CantidadDeBalas <= 0 && listaDeArmas.Head.CantidadDeBalasTotales <= 0)
                     {
+                        Debug.Log("- escopeta");
                         listaDeArmas.remove();
                         if (listaDeArmas.Head.Valor == "pistolaPrincipal")
                         {
@@ -190,16 +192,22 @@ public class movimiento : rotacion
         if (other.tag == "arma")
         {
             string arma = other.GetComponent<arma>().QueArma;
-            Destroy(other);
-            if(arma == "metralleta")
+            Destroy(other.gameObject);
+            if(arma == "metralleta" && other.GetComponent<arma>().CanDetect == true)
             {
+                Debug.Log("metralleta");
                 listaDeArmas.Add2(arma,30,30,300, 0.2f);
                 textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
             }
-            else if(arma == "escopeta")
+            else if(arma == "escopeta" && other.GetComponent<arma>().CanDetect == true)
             {
+                Debug.Log("escopeta");
                 listaDeArmas.Add2(arma, 8, 8, 64, 2);
                 textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
+            }
+            if (other.GetComponent<arma>().CanDetect == true)
+            {
+                other.GetComponent<arma>().CanDetect = false;
             }
         }
     }
