@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5532919559587160050}
   - component: {fileID: 6852700036855252865}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: nodos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,7 +92,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3961258369910024740}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
