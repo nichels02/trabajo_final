@@ -6,6 +6,12 @@ public class rotacionDelEnemigo : rotacion
 {
     [SerializeField] private GameObject jugador;
 
+    public GameObject Jugador
+    {
+        get { return jugador; }
+        set { jugador = value; }
+    }
+
 
     // Start is called before the first frame update
     void Start()

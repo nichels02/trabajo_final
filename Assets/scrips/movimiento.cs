@@ -11,7 +11,7 @@ public class movimiento : rotacion
     [SerializeField] Rigidbody myRigidbody;
     Vector2 inputMovement;
     Vector2 Vector;
-
+    
     [Header("Disparar")]
     listas.pila<string> listaDeArmas = new listas.pila<string>();
     [SerializeField] GameObject generadorDeBala;
@@ -22,13 +22,22 @@ public class movimiento : rotacion
     bool estaEnRecarga = false;
     float tiempo;
 
-
+    
     [Header("Cantidad Balas")]
+<<<<<<< Updated upstream
     [SerializeField] TMP_Text textoBalas;
     [SerializeField] Color vida;
 
 
 
+=======
+    [SerializeField] datosUI datos;
+    
+    [Header("vida")]
+    int vida = 100;
+    [SerializeField] Color[] corazones = new Color[10];
+    
+>>>>>>> Stashed changes
 
 
     // Start is called before the first frame update
@@ -116,7 +125,7 @@ public class movimiento : rotacion
                     }
 
 
-                    textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ ?";
+                    datos.GetComponent<datosUI>().TextoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ ?";
 
                 }
             }
@@ -133,18 +142,18 @@ public class movimiento : rotacion
                         bala1.GetComponent<bala>().Daño = listaDeArmas.Head.Daño;
                         listaDeArmas.Head.CantidadDeBalas -= 1;
                         tiempo = 0;
-                        textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
+                        datos.GetComponent<datosUI>().TextoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
                         if (listaDeArmas.Head.CantidadDeBalas <= 0 && listaDeArmas.Head.CantidadDeBalasTotales <= 0)
                         {
                             Debug.Log("- metralleta");
                             listaDeArmas.remove();
                             if (listaDeArmas.Head.Valor == "pistolaPrincipal")
                             {
-                                textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ ?";
+                                datos.GetComponent<datosUI>().TextoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ ?";
                             }
                             else
                             {
-                                textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
+                                datos.GetComponent<datosUI>().TextoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
                             }
                         }
                         else if (listaDeArmas.Head.CantidadDeBalas <= 0)
@@ -173,18 +182,18 @@ public class movimiento : rotacion
                         bala2.GetComponent<bala>().Daño = listaDeArmas.Head.Daño;
                         listaDeArmas.Head.CantidadDeBalas -= 2;
                         tiempo = 0;
-                        textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
+                        datos.GetComponent<datosUI>().TextoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
                         if (listaDeArmas.Head.CantidadDeBalas <= 0 && listaDeArmas.Head.CantidadDeBalasTotales <= 0)
                         {
                             Debug.Log("- escopeta");
                             listaDeArmas.remove();
                             if (listaDeArmas.Head.Valor == "pistolaPrincipal")
                             {
-                                textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ ?";
+                                datos.GetComponent<datosUI>().TextoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ ?";
                             }
                             else
                             {
-                                textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
+                                datos.GetComponent<datosUI>().TextoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
                             }
                         }
                         else if (listaDeArmas.Head.CantidadDeBalas <= 0)
@@ -223,16 +232,25 @@ public class movimiento : rotacion
         if(listaDeArmas.Head.Valor == "pistolaPrincipal")
         {
             listaDeArmas.Head.CantidadDeBalas = listaDeArmas.Head.CantidadDeBalasCargador;
-            textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ ?";
+            datos.GetComponent<datosUI>().TextoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ ?";
         }
         else
         {
             listaDeArmas.Head.CantidadDeBalas = listaDeArmas.Head.CantidadDeBalasCargador;
             listaDeArmas.Head.CantidadDeBalasTotales -= listaDeArmas.Head.CantidadDeBalasCargador;
-            textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
+            datos.GetComponent<datosUI>().TextoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
         }
         tiempo = 0;
     }
+
+    public void restarVida(int daño)
+    {
+        vida = vida - daño;
+        //int porcentaje = vida / 10;
+        dynamic porcentaje = Mathf.Ceil(vida / 10);
+        corazones[porcentaje].a = 0;
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -244,13 +262,13 @@ public class movimiento : rotacion
             {
                 Debug.Log("metralleta");
                 listaDeArmas.Add2(arma,30,30,300, 0.2f,5);
-                textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
+                datos.GetComponent<datosUI>().TextoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
             }
             else if(arma == "escopeta" && other.GetComponent<arma>().CanDetect == true)
             {
                 Debug.Log("escopeta");
                 listaDeArmas.Add2(arma, 8, 8, 64, 2,20);
-                textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
+                datos.GetComponent<datosUI>().TextoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
             }
             if (other.GetComponent<arma>().CanDetect == true)
             {

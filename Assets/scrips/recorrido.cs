@@ -15,13 +15,13 @@ public class recorrido : MonoBehaviour
         Vectores[0] = new Vector3(-580, 140, -536);
         Vectores[1] = new Vector3(-540, 140, -536);
         Vectores[2] = new Vector3(-540, 140, -421);
-        Vectores[3] = new Vector3(-540, 158.6f, -421);
+        Vectores[3] = new Vector3(-540, 160, -421);
         Vectores[4] = new Vector3(-540, 158.6f, -411.7f);
 
         Vectores2[0] = new Vector3(-645.2f, 140, -239.58f);
         Vectores2[1] = new Vector3(-645.2f, 140, -203.9f);
         Vectores2[2] = new Vector3(-604.56f, 140, -203.9f);
-        Vectores2[3] = new Vector3(-604.56f, 156.98f, -203.9f);
+        Vectores2[3] = new Vector3(-604.56f, 160, -203.9f);
         Vectores2[4] = new Vector3(-594.31f, 156.98f, -203.9f);
         for (int i = 0; i < Vectores.Length; i++)
         {

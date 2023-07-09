@@ -6,6 +6,8 @@ TagManager:
   tags:
   - arma
   - punto
+  - bala
+  - "da\xF1o enemigo"
   layers:
   - Default
   - TransparentFX

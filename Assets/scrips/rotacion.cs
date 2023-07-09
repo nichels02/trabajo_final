@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class rotacion : MonoBehaviour
 {
-    [SerializeField] protected Vector3 angulos;
+    protected Vector3 angulos;
 
 
     private Quaternion qx = Quaternion.identity; //(0,0,0,1)
@@ -12,7 +12,7 @@ public class rotacion : MonoBehaviour
     private Quaternion qz = Quaternion.identity; //(0,0,0,1)
 
 
-    [SerializeField] private Quaternion r = Quaternion.identity; //(0,0,0,1)
+    private Quaternion r = Quaternion.identity; //(0,0,0,1)
     private float anguloSen;
     private float anguloCos;
 
