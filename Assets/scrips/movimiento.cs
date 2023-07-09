@@ -25,6 +25,7 @@ public class movimiento : rotacion
 
     [Header("Cantidad Balas")]
     [SerializeField] TMP_Text textoBalas;
+    [SerializeField] Color vida;
 
 
 
