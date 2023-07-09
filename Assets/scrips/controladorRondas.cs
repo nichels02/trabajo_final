@@ -14,6 +14,11 @@ public class controladorRondas : MonoBehaviour
     int cantidadzombiesMaxDato=20;
     [SerializeField]UnityEvent generarZombie;
 
+    public int Rondas
+    {
+        get { return rondas; }
+        set { rondas = value; }
+    }
     // Start is called before the first frame update
     void Start()
     {

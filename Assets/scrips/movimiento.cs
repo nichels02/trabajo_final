@@ -18,9 +18,9 @@ public class movimiento : rotacion
     [SerializeField] GameObject generadorDeBalaEscoprta1;
     [SerializeField] GameObject generadorDeBalaEscoprta2;
     [SerializeField] GameObject Bala;
+    [SerializeField] float tiempoDeRecargas;
+    bool estaEnRecarga = false;
     float tiempo;
-    float tiempomax=1;
-    Quaternion quaternionTemporal;
 
 
     [Header("Cantidad Balas")]
@@ -33,7 +33,7 @@ public class movimiento : rotacion
     // Start is called before the first frame update
     void Start()
     {
-        listaDeArmas.Add("pistolaPrincipal",10,10,1);
+        listaDeArmas.Add("pistolaPrincipal",10,10,1,1);
     }
 
     // Update is called once per frame
@@ -43,6 +43,18 @@ public class movimiento : rotacion
         {
             tiempo += Time.deltaTime;
         }
+        if (estaEnRecarga == true)
+        {
+            if (tiempoDeRecargas < 2)
+            {
+                tiempoDeRecargas += Time.deltaTime;
+            }
+            else
+            {
+                Recargar();
+            }
+        }
+        
         
     }
 
@@ -86,15 +98,22 @@ public class movimiento : rotacion
             {
                 if (valor == 1)
                 {
-
-                    Instantiate(Bala, generadorDeBala.transform.position, generadorDeBala.transform.rotation);
-                    listaDeArmas.Head.CantidadDeBalas -= 1;
-                    tiempo = 0;
-
-                    if (listaDeArmas.Head.CantidadDeBalas <= 0)
+                    if(listaDeArmas.Head.CantidadDeBalas > 0)
                     {
-                        listaDeArmas.Head.CantidadDeBalas = listaDeArmas.Head.CantidadDeBalasCargador;
+                        GameObject bala1 = Instantiate(Bala, generadorDeBala.transform.position, generadorDeBala.transform.rotation);
+                        bala1.GetComponent<bala>().Daño = listaDeArmas.Head.Daño;
+                        listaDeArmas.Head.CantidadDeBalas -= 1;
+                        tiempo = 0;
+                        if (listaDeArmas.Head.CantidadDeBalas <= 0)
+                        {
+                            if (estaEnRecarga == false)
+                            {
+                                tiempoDeRecargas = 0;
+                                estaEnRecarga = true;
+                            }
+                        }
                     }
+
 
                     textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ ?";
 
@@ -107,31 +126,35 @@ public class movimiento : rotacion
             {
                 if (valor == 1)
                 {
-
-                    Instantiate(Bala, generadorDeBala.transform.position, generadorDeBala.transform.rotation);
-                    listaDeArmas.Head.CantidadDeBalas -= 1;
-                    tiempo = 0;
-
-                    if (listaDeArmas.Head.CantidadDeBalas <= 0 && listaDeArmas.Head.CantidadDeBalasTotales <= 0)
+                    if(listaDeArmas.Head.CantidadDeBalas > 0)
                     {
-                        Debug.Log("- metralleta");
-                        listaDeArmas.remove();
-                        if (listaDeArmas.Head.Valor == "pistolaPrincipal")
+                        GameObject bala1 = Instantiate(Bala, generadorDeBala.transform.position, generadorDeBala.transform.rotation);
+                        bala1.GetComponent<bala>().Daño = listaDeArmas.Head.Daño;
+                        listaDeArmas.Head.CantidadDeBalas -= 1;
+                        tiempo = 0;
+                        textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
+                        if (listaDeArmas.Head.CantidadDeBalas <= 0 && listaDeArmas.Head.CantidadDeBalasTotales <= 0)
                         {
-                            textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ ?";
+                            Debug.Log("- metralleta");
+                            listaDeArmas.remove();
+                            if (listaDeArmas.Head.Valor == "pistolaPrincipal")
+                            {
+                                textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ ?";
+                            }
+                            else
+                            {
+                                textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
+                            }
                         }
-                        else
+                        else if (listaDeArmas.Head.CantidadDeBalas <= 0)
                         {
-                            textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
+                            if (estaEnRecarga == false)
+                            {
+                                tiempoDeRecargas = 0;
+                                estaEnRecarga = true;
+                            }
                         }
                     }
-                    else if (listaDeArmas.Head.CantidadDeBalas <= 0)
-                    {
-                        listaDeArmas.Head.CantidadDeBalas = listaDeArmas.Head.CantidadDeBalasCargador;
-                        listaDeArmas.Head.CantidadDeBalasTotales -= listaDeArmas.Head.CantidadDeBalasCargador;
-                    }
-
-                    textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
                 }
             }
         }
@@ -141,32 +164,38 @@ public class movimiento : rotacion
             {
                 if (valor == 1)
                 {
-                    Instantiate(Bala, generadorDeBalaEscoprta1.transform.position, generadorDeBalaEscoprta1.transform.rotation);
-
-                    Instantiate(Bala, generadorDeBalaEscoprta2.transform.position, generadorDeBalaEscoprta2.transform.rotation);
-                    listaDeArmas.Head.CantidadDeBalas -= 2;
-                    tiempo = 0;
-
-                    if (listaDeArmas.Head.CantidadDeBalas <= 0 && listaDeArmas.Head.CantidadDeBalasTotales <= 0)
+                    if(listaDeArmas.Head.CantidadDeBalas > 0)
                     {
-                        Debug.Log("- escopeta");
-                        listaDeArmas.remove();
-                        if (listaDeArmas.Head.Valor == "pistolaPrincipal")
+                        GameObject bala1 = Instantiate(Bala, generadorDeBalaEscoprta1.transform.position, generadorDeBalaEscoprta1.transform.rotation);
+                        bala1.GetComponent<bala>().Daño = listaDeArmas.Head.Daño;
+                        GameObject bala2 = Instantiate(Bala, generadorDeBalaEscoprta2.transform.position, generadorDeBalaEscoprta2.transform.rotation);
+                        bala2.GetComponent<bala>().Daño = listaDeArmas.Head.Daño;
+                        listaDeArmas.Head.CantidadDeBalas -= 2;
+                        tiempo = 0;
+                        textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
+                        if (listaDeArmas.Head.CantidadDeBalas <= 0 && listaDeArmas.Head.CantidadDeBalasTotales <= 0)
                         {
-                            textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ ?";
+                            Debug.Log("- escopeta");
+                            listaDeArmas.remove();
+                            if (listaDeArmas.Head.Valor == "pistolaPrincipal")
+                            {
+                                textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ ?";
+                            }
+                            else
+                            {
+                                textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
+                            }
                         }
-                        else
+                        else if (listaDeArmas.Head.CantidadDeBalas <= 0)
                         {
-                            textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
+                            if (estaEnRecarga == false)
+                            {
+                                tiempoDeRecargas = 0;
+                                estaEnRecarga = true;
+                            }
                         }
-                    }
-                    else if(listaDeArmas.Head.CantidadDeBalas <= 0)
-                    {
-                        listaDeArmas.Head.CantidadDeBalas = listaDeArmas.Head.CantidadDeBalasCargador;
-                        listaDeArmas.Head.CantidadDeBalasTotales -= listaDeArmas.Head.CantidadDeBalasCargador;
-                    }
 
-                    textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
+                    }
                 }
             }
         }
@@ -186,6 +215,23 @@ public class movimiento : rotacion
         */
     }
 
+    public void Recargar()
+    {
+
+        estaEnRecarga = false;
+        if(listaDeArmas.Head.Valor == "pistolaPrincipal")
+        {
+            listaDeArmas.Head.CantidadDeBalas = listaDeArmas.Head.CantidadDeBalasCargador;
+            textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ ?";
+        }
+        else
+        {
+            listaDeArmas.Head.CantidadDeBalas = listaDeArmas.Head.CantidadDeBalasCargador;
+            listaDeArmas.Head.CantidadDeBalasTotales -= listaDeArmas.Head.CantidadDeBalasCargador;
+            textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
+        }
+        tiempo = 0;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -196,13 +242,13 @@ public class movimiento : rotacion
             if(arma == "metralleta" && other.GetComponent<arma>().CanDetect == true)
             {
                 Debug.Log("metralleta");
-                listaDeArmas.Add2(arma,30,30,300, 0.2f);
+                listaDeArmas.Add2(arma,30,30,300, 0.2f,5);
                 textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
             }
             else if(arma == "escopeta" && other.GetComponent<arma>().CanDetect == true)
             {
                 Debug.Log("escopeta");
-                listaDeArmas.Add2(arma, 8, 8, 64, 2);
+                listaDeArmas.Add2(arma, 8, 8, 64, 2,20);
                 textoBalas.text = listaDeArmas.Head.CantidadDeBalas + "/ " + listaDeArmas.Head.CantidadDeBalasTotales;
             }
             if (other.GetComponent<arma>().CanDetect == true)

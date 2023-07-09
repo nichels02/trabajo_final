@@ -12,6 +12,7 @@ public class listas : MonoBehaviour
             int cantidadDeBalas;
             int cantidadDeBalasTotales;
             int cantidadDeBalasCargador;
+            int daño;
             float tiempoMax;
             node next;
             node previus;
@@ -51,24 +52,31 @@ public class listas : MonoBehaviour
                 get { return tiempoMax; }
                 set { tiempoMax = value; }
             }
+            public int Daño
+            {
+                get { return daño; }
+                set { daño = value; }
+            }
             public node(T v)
             {
                 valor = v;
             }
-            public node(T v, int cantidad, int cargador, float tiempo)
+            public node(T v, int cantidad, int cargador, float tiempo, int elDaño)
             {
                 valor = v;
                 cantidadDeBalas = cantidad;
                 cantidadDeBalasCargador = cargador;
                 tiempoMax = tiempo;
+                daño = elDaño;
             }
-            public node(T v, int cantidad, int cargador, int totales , float tiempo)
+            public node(T v, int cantidad, int cargador, int totales , float tiempo, int elDaño)
             {
                 valor = v;
                 cantidadDeBalas = cantidad;
                 cantidadDeBalasCargador = cargador;
                 cantidadDeBalasTotales = totales;
                 tiempoMax = tiempo;
+                daño = elDaño;
             }
         }
 
@@ -84,9 +92,9 @@ public class listas : MonoBehaviour
 
 
 
-        public void Add(T dato, int cantidad, int cargador, float tiempo)
+        public void Add(T dato, int cantidad, int cargador, float tiempo, int elDaño)
         {
-            node newnode = new node(dato, cantidad, cargador, tiempo);
+            node newnode = new node(dato, cantidad, cargador, tiempo, elDaño);
             if(head == null)
             {
                 head = newnode;
@@ -102,9 +110,9 @@ public class listas : MonoBehaviour
                 cantidad = cantidad + 1;
             }
         }
-        public void Add2(T dato, int cantidad, int cargador, int total, float tiempo)
+        public void Add2(T dato, int cantidad, int cargador, int total, float tiempo, int elDaño)
         {
-            node newnode = new node(dato, cantidad, cargador, total, tiempo);
+            node newnode = new node(dato, cantidad, cargador, total, tiempo, elDaño);
             if (head == null)
             {
                 head = newnode;
